@@ -15,8 +15,9 @@ const Resume = () => {
     const {auth,kv,isLoading,fs}=usePuterStore();
     const [imageUrl, setimageUrl] = useState('');
     const [ResumeUrl, setResumeUrl] = useState('');
-    const [feedback, setfeedback] = useState <Feedback|null>(null);
+    const [feedback, setfeedback] = useState<Feedback|null>(null);
     const navigate = useNavigate();
+    const {id} =useParams();
     
     useEffect(() => {
         if(!isLoading && !auth.isAuthenticated){
@@ -25,7 +26,6 @@ const Resume = () => {
       }, [isLoading])
     
 
-    const {id} =useParams();
     useEffect(()=>{
         const loadResume = async ()=>{
             const resume = await kv.get(`resume:${id}`);
@@ -47,9 +47,8 @@ const Resume = () => {
 
             setfeedback(data.feedback);
             console.log({resumeUrl,imageUrl,feedback:data.feedback});
-            
-
         }
+        loadResume();
     },[id]);
 
 
